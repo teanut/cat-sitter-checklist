@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cat Sitter Checklist</title>
+
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji']
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body class="min-h-screen bg-sky-50 text-slate-900 font-sans">
+  <!-- soft background glow (light mode) -->
+  <div class="pointer-events-none fixed inset-0 overflow-hidden">
+    <div class="absolute -top-52 left-[-15%] h-[520px] w-[520px] rounded-full bg-sky-300/35 blur-3xl"></div>
+    <div class="absolute top-10 right-[-15%] h-[520px] w-[520px] rounded-full bg-indigo-200/35 blur-3xl"></div>
+  </div>
+
+  <!-- Sticky progress header -->
+  <div class="sticky top-0 z-50 border-b border-slate-200/60 bg-sky-50/85 backdrop-blur">
+    <div class="mx-auto max-w-4xl px-4 py-3">
+      <div class="topbar">
+        <div class="title">
+          <h1 class="text-base font-extrabold tracking-tight">🐾 Cat Sitter Checklist</h1>
+          <div class="sub"><strong>Hotdog: </strong>Black and white cat<br><strong>Pretzel: </strong>Brown tabby cat</div>
+        </div>
+
+        <div class="meta">
+          <span class="pill">
+            <span id="doneLabel">0</span>/<span id="totalLabel">0</span> done
+          </span>
+
+          <div class="progress" aria-label="progress">
+            <div class="bar" id="bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="relative mx-auto max-w-4xl px-4 py-5 pb-16">
+    <!-- Checklist card -->
+    <section class="card" id="daily">
+      <div class="card-h">
+        <h2 class="text-sm font-extrabold tracking-tight">✅ Daily Tasks (Each Visit)</h2>
+
+        <div class="btnrow">
+          <button class="btn primary" id="markAll">Mark all done</button>
+          <button class="btn danger" id="resetToday">Reset today</button>
+        </div>
+      </div>
+
+      <div class="card-b">
+        <!-- Notes / Callouts -->
+        <div class="callouts">
+          <div class="callout warn">
+            <strong>Office rules:</strong>
+            Keep the office door <strong>closed</strong>. Hotdog stays in the office. Pretzel must <strong>not</strong> enter the office.
+            When entering/exiting, close the door <strong>immediately</strong> behind you.
+          </div>
+
+          <div class="callout info">
+            <strong>Feeding time:</strong> Around <strong>9 PM</strong>. (This is very flexible. 8:30 PM - Midnight is fine) Hotdog may need supervision and sometimes spoon-feeding.
+          </div>
+
+          <div class="callout good">
+            <strong>If anything feels off:</strong> If food isn’t being eaten or you need help, text/call us anytime.
+              <br>Tina's Number: <strong>703-861-8665</strong>; Chris's number: <strong>714-914-7488.</strong> Or message on FB/Discord.
+          </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="checklist" id="checklist">
+
+          <!-- ARRIVAL TASKS -->
+          <div class="section-label">Arrival tasks</div>
+
+          <label class="task">
+            <input type="checkbox" data-id="arrival_check_mail_garage" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">1) Check mailbox in garage</div>
+              <div class="task-desc">
+                Check mailbox and bring in any mail.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="arrival_check_mail_front" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">2) Check front door for packages/mail</div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="arrival_clean_hotdog_area" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">3) Clean Hotdog’s food area</div>
+              <div class="task-desc">
+                There may already be food on the desk when you arrive. Use a Clorox wipe to clean the desk/food area (important for ants).
+              </div>
+            </div>
+          </label>
+
+          <!-- FEEDING -->
+          <div class="section-label">Feeding (around 9 PM)</div>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_gather" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">4) Gather both feeders</div>
+              <div class="task-desc">
+                Go into the office and grab <span class="font-semibold">Hotdog’s wet feeder</span> (on the table).
+                Reminder: office sliding door is stiff — <span class="font-semibold">push back a little, then slide</span>.
+                <span class="font-semibold">Close the office door behind you</span> so Hotdog doesn’t escape / Pretzel doesn’t enter.
+                Grab <span class="font-semibold">Pretzel’s wet feeder</span> from the kitchen island. Bring both feeders to the kitchen.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_open_remove_old" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">5) Open feeders</div>
+              <div class="task-desc">
+                Open each feeder by pressing the <span class="font-semibold">“press here” buttons</span> and lifting up.
+                You should see <span class="font-semibold">5 stainless steel trays</span>.
+                In the center is the <span class="font-semibold">locking mechanism</span>:
+                turn it left to unlock, then <span class="font-semibold">lift it up to access the trays</span>.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_wash_trays" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">6) Remove old food + wash trays</div>
+              <div class="task-desc">
+                Take out all stainless steel trays. Remove any old food into the trash. Wash with soap + water in the sink. Dry with the towel near the sink.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_ice_packs" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">7) Ice pack swap</div>
+              <div class="task-desc">
+                Lift up the white tray holder. Remove the <span class="font-semibold">2 blue ice packs</span> and put them in the freezer (to re-freeze).
+                Grab <span class="font-semibold">ready-to-use frozen ice packs</span> from the freezer, place them into the feeder base,
+                then put the white tray holder back on top.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_trays_back_in" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">8) Put trays back in (but don’t fully close yet)</div>
+              <div class="task-desc">
+                Place the clean, dry stainless steel trays back into each feeder.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_fill_food" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">9) Fill the food (5 cans total for both cats)</div>
+              <div class="task-desc">
+                Find the <span class="font-semibold">labeled cans</span> on the kitchen counter and grab <span class="font-semibold">5 cans total</span>.
+                Split food evenly across both feeders and all 10 trays total:
+                for each can, put <span class="font-semibold">half</span> into Hotdog’s feeder and the other <span class="font-semibold">half</span> into Pretzel’s feeder
+                (repeat x5 until all trays are filled).
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_finish_assembly" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">10) Finish assembly (only after food is inside)</div>
+              <div class="task-desc">
+                Place the gray locking piece back on top and turn it right to lock.
+                Place the <span class="font-semibold">white cover on last</span>.
+                Make sure the opening/position is aligned correctly.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_serve_pretzel" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">11) Serve Pretzel (kitchen)</div>
+              <div class="task-desc">
+                Put Pretzel’s feeder back on the kitchen island. She can eat on her own (no monitoring needed).
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_serve_hotdog" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">12) Serve Hotdog (office) + monitor</div>
+              <div class="task-desc">
+                Bring Hotdog’s feeder into the office and place it on the computer desk.
+                <span class="font-semibold">Close the office door</span> so Hotdog stays in and Pretzel stays out.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="hotdog_cone_optional" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">13) Remove Hotdog’s cone while he eats</div>
+              <div class="task-desc">
+                To remove: unclip collar → slide cone off. Put back: shimmy cone on → clip collar closed.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="feed_hotdog_spoon" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">14) If Hotdog won’t eat</div>
+              <div class="task-desc">
+                Spoon-feed him a little: scoop some food onto a spoon and offer it to him to get him started.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="ants_wipe" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">15) Ant prevention (Hotdog only)</div>
+              <div class="task-desc">
+                After Hotdog eats, wipe the desk/food area with a Clorox wipe. Clean any dropped food (important for ants).
+              </div>
+            </div>
+          </label>
+
+          <!-- LITTER -->
+          <div class="section-label mt-2">Litter</div>
+
+          <label class="task">
+            <input type="checkbox" data-id="litter_hotdog_robot" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">16) Hotdog (office) — Litter Robot</div>
+              <div class="task-desc">
+                Check light is <span class="font-semibold">BLUE</span> and litter is visible at the bottom.
+                If it looks “off” (hole/upside down/no litter): press <span class="font-semibold">Cycle</span>, then <span class="font-semibold">Reset</span>
+                (2nd and 3rd buttons from the left). <span class="font-semibold text-rose-700">NEVER press Empty.</span>
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="litter_pretzel_scoop" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">17) Pretzel (hallway near front door) — manual box</div>
+              <div class="task-desc">
+                Scoop poop/pee clumps into the nearby trash can.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="litter_pretzel_refill" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">18) Refill Pretzel litter if low (might not need to do)</div>
+              <div class="task-desc">
+                If litter looks low, refill from the bag next to the box (dusty—pour slowly).
+              </div>
+            </div>
+          </label>
+
+          <!-- WATER -->
+          <div class="section-label mt-2">Water</div>
+
+          <label class="task">
+            <input type="checkbox" data-id="water_hotdog" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">19) Hotdog (office) — water cup</div>
+              <div class="task-desc">
+                Dump and refill Hotdog’s water cup with fresh sink water.
+              </div>
+            </div>
+          </label>
+
+          <label class="task">
+            <input type="checkbox" data-id="water_pretzel" class="task-box" />
+            <div class="task-body">
+              <div class="task-title">20) Pretzel (kitchen island) — water bowl</div>
+              <div class="task-desc">
+                Dump and refill Pretzel’s water bowl with fresh sink water.
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="small">This checklist resets automatically each day on your device.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
